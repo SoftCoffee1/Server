@@ -1,0 +1,38 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+aiohttp = "*"
+aiosignal = "*"
+asgiref = "*"
+async-timeout = "*"
+attrs = "*"
+beautifulsoup4 = "*"
+certifi = "*"
+charset-normalizer = "*"
+colorama = "*"
+django = "*"
+djangorestframework= "*" 
+frozenlist= "*" 
+idna= "*" 
+multidict= "*" 
+openai= "*" 
+pypdf2= "*" 
+python-dotenv= "*" 
+pytz= "*" 
+requests= "*" 
+soupsieve= "*" 
+sqlparse= "*"  
+tqdm="*"  
+typing-extensions="*"  
+tzdata="*"  
+urllib3="*"  
+yarl="*"
+
+[dev-packages]
+
+[requires]
+python_version ="3.11"  
+python_full_version ="3.11.4"   
