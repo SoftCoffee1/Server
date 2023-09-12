@@ -30,14 +30,11 @@ def analyze_view(text):
             temperature = 0,
         )
         answer = response['choices'][0]['message']['content']
-        print(answer)
+        return answer
     except Exception as e :
         print(e)
+        return ""
 
-
-# 정규 표현식을 사용하여 개행 문자와 탭 문자를 공백으로 바꾸기
-
-# 결과 출력
 
 def preprocessing(page_text):
     cleaned_text = re.sub(r'[\n\t]', ' ', page_text)
@@ -46,7 +43,9 @@ def preprocessing(page_text):
 
 def read_pdf(pdf_url):
     pdf_response = requests.get(pdf_url)
-    if pdf_response.status_code == 200:
+    if pdf_response.status_code != 200:
+        print(f'PDF 다운로드에 실패하였습니다. 상태 코드: {pdf_response.status_code}')
+    try:
         pdf_data = BytesIO(pdf_response.content)
         pdf_reader = PyPDF2.PdfReader(pdf_data)
         num_pages = len(pdf_reader.pages)
@@ -63,8 +62,9 @@ def read_pdf(pdf_url):
                 temp = temp[max_length:]
         text_list.append(temp)
         return text_list
-    else:
-        print(f'PDF 다운로드에 실패하였습니다. 상태 코드: {pdf_response.status_code}')
+    except Exception as e:
+        print(e)
+        return ""
 
 
 def crawl_pdf_link(url):
@@ -84,6 +84,7 @@ def crawl_pdf_link(url):
         return (pdf_urls)
     except Exception as e:
         print(e)
+        return ""
 
 start_url = 'https://finance.naver.com/research/company_list.naver?keyword=&brokerCode=&writeFromDate=&writeToDate=&searchType=itemCode&itemName=%C4%AB%C4%AB%BF%C0&itemCode=035720&x=40&y=33' 
 for i in range(1, 10):
@@ -93,17 +94,14 @@ for i in range(1, 10):
         print(pdf_url)
         text_list = read_pdf(pdf_url)
         for text in text_list:
-            print(text)
-            print()
-            print()
-            print()
-            print()
-            result = ""
+            print(text + '\n\n\n\n')
             try:
                 result = analyze_view(text)
+                result = json.loads(result)
                 print(result)
             except Exception as e:
                 print(e)
+            break
         break
     break
 
